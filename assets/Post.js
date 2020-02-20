@@ -1,7 +1,6 @@
-export default class Post {
-    constructor(title, img) {
+class Post {
+    constructor(title) {
         this.title = title
-        this.img = img
         this.date = new Date()
     }
 
@@ -9,11 +8,13 @@ export default class Post {
         return JSON.stringify({
             title: this.title,
             date: this.date.toJSON(),
-            img: this.img
-        }, null, 2)
-    }
-
-    get uppercaseTitle() {
-        return this.title.toUpperCase()
+        })
     }
 }
+
+// function Post(title, date) {
+//     this.title = title;
+//     this.date = new Date();
+// }
+
+// let newPost = new Post('Webpack');

@@ -1,0 +1,25 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "webpack course Minin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/borzsonite/webpackLessonMinin.git"
+  },
+  "keywords": [
+    "js",
+    "javs",
+    "script",
+    "webpack"
+  ],
+  "author": "Serge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/borzsonite/webpackLessonMinin/issues"
+  },
+  "homepage": "https://github.com/borzsonite/webpackLessonMinin#readme"
+}

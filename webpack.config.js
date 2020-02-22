@@ -3,10 +3,11 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
+    context: path.resolve(__dirname, 'src'), // указывает путь в котором лежат исходные файлы для сборки
     mode: 'development',
     entry: {
-        main: './src/index.js',
-        analitics: './src/analitics.js'
+        main: './index.js',
+        analitics: './analitics.js'
     },
     output: {
         filename: '[name].[contenthash].js',
@@ -14,8 +15,20 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './src/index.html'
+            template: './index.html'
         }),
-        new CleanWebpackPlugin()
-    ]
+        new CleanWebpackPlugin(),
+    ],
+    module: {
+        rules: [
+            {   // каждый новый лоадер описывается в виде объекта {},
+                test: /\.css$/, //регулярное выражение для .css файла
+                use: ['style-loader', 'css-loader'] // указывает, какие лоадеры использовать
+            },
+            {
+                test: /\.(png|jpg|svg|gif)$/,
+                use: ['file-loader']
+            }
+        ]
+    }
 }

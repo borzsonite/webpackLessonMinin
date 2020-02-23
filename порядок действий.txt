@@ -1,0 +1,21 @@
+ПОДКЛЮЧЕНИЕ ШРИФТОВ:
+Скачиваем нужный шрифт
+ - распаковываем шрифт в папку asssets/fonts/roboto
+
+ - создаем файл font.css в котором через директиву @font-face прописываем пути до шрифтов:
+@font-face {
+    font-family: 'Roboto';
+    src: url('../assets/fonts/roboto/Roboto-Regular.ttf'), format('truetype');
+}
+- в css файле (напр. style.css) в  котором эти шрифты будут подключаться делаем импорт из файла в котором прописаны шрифты:
+@import "fonts.css";
+
+- применяет нужный шрифт:
+body {
+    font-family: Roboto, sans-serif;
+}
+
+УСТАНОВКА ДОПОЛНИТЕЛЬНЫХ БИБЛИОТЕК ИЗ ПАПКИ NODEJS
+- npm install normolize.css
+- импортируем через тильду в файле где будет применяться данная библиотека, например в style.css:
+@import "~normalize.css";

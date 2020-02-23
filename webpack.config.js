@@ -13,6 +13,12 @@ module.exports = {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist')
     },
+    resolve: {
+        extensions: ['.png', '.js', '.json'], // чтоб не писать расширения у файлов в index.js. Например, можно написать Post вместо Post.js
+        alias: {
+            "@": path.resolve(__dirname, 'src/assets')
+        },
+    },
     plugins: [
         new HTMLWebpackPlugin({
             template: './index.html'
@@ -32,7 +38,15 @@ module.exports = {
             {
                 test: /\.(ttf|woff|woff2|eot)$/,
                 use: ['file-loader']
-            }
+            },
+            {
+                test: /\.xml$/,
+                use: ['xml-loader']
+            },
+            {
+                test: /\.csv$/,
+                use: ['csv-loader']
+            },
         ]
     }
 }

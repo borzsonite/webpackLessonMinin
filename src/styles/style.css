@@ -1,3 +1,9 @@
+@import "fonts.css";
+
+body {
+    font-family: Roboto, sans-serif;
+}
+
 .container {
     padding-top: 2rem;
     max-width: 1000px;
@@ -6,7 +12,7 @@
 
 h1 {
     text-align: center;
-    color: red;
+    color: green;
 }
 
 .logo {

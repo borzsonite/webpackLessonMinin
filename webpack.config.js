@@ -19,6 +19,11 @@ module.exports = {
             "@": path.resolve(__dirname, 'src/assets')
         },
     },
+    optimization: { //данная настройка позволяет избежать повтороного включения кода одних и тех же библиотек используемых в различных файлах. Например до ее применения 
+        splitChunks: { // код jquery прописывался в выходных файлах analitics.js and main.js после применения настройки этот код находится в vendor.analitics.js
+            chunks: 'all'
+        }
+    },
     plugins: [
         new HTMLWebpackPlugin({
             template: './index.html'

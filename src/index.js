@@ -4,7 +4,7 @@ import json from './assets/json'
 import WebpackLogo from './assets/webpack-logo'
 import xml from './assets/data.xml'
 import csv from '@/data.csv' // вместо пути ./assets можно укзать alias @ прописанный в webpackconfig.js
-import * as $ from 'jquery'; // импортируем все из библиотеку jquery в переменную $
+import * as $ from 'jquery'; // импортируем все из библиотеки jquery в переменную $
 const post = new Post("Hello Webpack", WebpackLogo);
 $('pre').html(post.toString())
 

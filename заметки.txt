@@ -16,3 +16,13 @@ const HTMLWebpackPlugin = require('html-webpack-plugin') // подключаем
     ]
 	
 54.02 webpack понимает только .js и .json файлы поэтому для работы с другими типами файлов (например .css) нужны loader'ы
+
+1.35.30 установка webpack-dev-server для автоматической перезагрузки страницы при внесении изменений
+ - npm i -D webpack-dev-server
+ - изменения в webpackconfig.js 
+    devServer: {
+        port: 4200 // указывает на каком порту будет работать сервер
+    },
+ - изменения в package.json
+ 	"start": "webpack-dev-server --mode development --open" // ключ --open для автоматического открытия окна в браузере
+ - !!! при использовании webpack-dev-server в папке dist ничего не записываются  - т.к все файлы находятся в опертаивной памяти (для ускорения процесса). Чтобы увидеть файлы проект нужно пересобрать через npm run build/dev

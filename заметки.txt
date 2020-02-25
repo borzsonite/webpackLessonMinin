@@ -26,3 +26,36 @@ const HTMLWebpackPlugin = require('html-webpack-plugin') // подключаем
  - изменения в package.json
  	"start": "webpack-dev-server --mode development --open" // ключ --open для автоматического открытия окна в браузере
  - !!! при использовании webpack-dev-server в папке dist ничего не записываются  - т.к все файлы находятся в опертаивной памяти (для ускорения процесса). Чтобы увидеть файлы проект нужно пересобрать через npm run build/dev
+
+1.40.23 установка copy-webpack-plugin для переноса файлов (папок) из одного места в другое, например favicon.ico из папки /src в  папку /dist.
+ - npm i -D copy-webpack-plugin
+ - в webpack.config.js дописываем:
+	const CopyWebpackPlugin = require('copy-webpack-plugin');
+ и в разделе с плагинам добавляем:
+         new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, 'src/favicon.ico'),  // что и из какой папки копируем
+                to: path.resolve(__dirname, 'dist') // путь куда скопируется favicon.ico
+            }
+        ]),
+		
+1.43.00 установка mini-css-extract-plugin необходим чтобы стили писались в отдельный файл, а не прописывались в тегах <head><style></style></head>
+ - npm i -D mini-css-extract-plugin
+ - в webpackconfig.js добавляем:
+	const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+		и в разделе plugin:
+          new MiniCssExtractPlugin({
+            filename: '[name].[contenthash]css',
+        }),
+		
+ - в разделе rules добавляем:
+	        rules: [
+            {   test: /\.css$/, //регулярное выражение для .css файла
+                use: [{
+                    loader: MiniCssExtractPlugin.loader, // прописываем лоадер
+                    options: {
+                        hmr: true, // позволяет изменять сущности без перезагрузки страницы
+                        reloadAll: true
+                    }
+                }, 'css-loader']
+            },

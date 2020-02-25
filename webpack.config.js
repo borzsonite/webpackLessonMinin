@@ -1,7 +1,11 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const isDev = process.env.NODE_ENV === 'development' // определяет в коком режиме проводится сборка
+console.log('isDev: ', isDev);
+console.log(process.env.NODE_ENV)
 
 module.exports = {
     context: path.resolve(__dirname, 'src'), // указывает путь в котором лежат исходные файлы для сборки
@@ -26,25 +30,38 @@ module.exports = {
         }
     },
     devServer: {
-        port: 4200
+        port: 4200,
+        hot: isDev
     },
     plugins: [
         new HTMLWebpackPlugin({
             template: './index.html'
         }),
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
-            {
-                from: path.resolve(__dirname, 'src/favicon.ico'),
-                to: path.resolve(__dirname, 'dist')
-            }
-        ]),
+        new CopyWebpackPlugin(
+            [
+                {
+                    from: path.resolve(__dirname, 'src/favicon.ico'),
+                    to: path.resolve(__dirname, 'dist')
+                },
+            ]
+        ),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css', // имя выходного файла
+        }),
     ],
     module: {
         rules: [
             {   // каждый новый лоадер описывается в виде объекта {},
                 test: /\.css$/, //регулярное выражение для .css файла
-                use: ['style-loader', 'css-loader'] // указывает, какие лоадеры использовать
+                // use: ['style-loader', 'css-loader'] // указывает, какие лоадеры использовать
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: isDev,
+                        reloadAll: true
+                    }
+                }, 'css-loader'] // вместо 'style-loader' как  в строке выше указываем MiniCssExtractPlugin.loader чтобы писать стили в файл .css
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,

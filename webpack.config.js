@@ -23,6 +23,17 @@ const optimization = () => {
 }
 
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}` //фукция принимает параметр ext и в зависимости от значение isDev возвращает имя с хешем или без
+const cssLoaders = extra => {
+    const loaders = [{
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+            hmr: isDev,
+            reloadAll: true
+        }
+    }, 'css-loader']
+    if (extra) loaders.push(extra);
+    return loaders
+}
 
 console.log('isDev: ', isDev);
 console.log(process.env.NODE_ENV)
@@ -76,33 +87,16 @@ module.exports = {
             {   // каждый новый лоадер описывается в виде объекта {},
                 test: /\.css$/, //регулярное выражение для .css файла
                 // use: ['style-loader', 'css-loader'] // указывает, какие лоадеры использовать
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: isDev,
-                        reloadAll: true
-                    }
-                }, 'css-loader'] // вместо 'style-loader' как  в строке выше указываем MiniCssExtractPlugin.loader чтобы писать стили в файл .css
+                use: cssLoaders()
+                // вместо 'style-loader' как  в строке выше указываем MiniCssExtractPlugin.loader чтобы писать стили в файл .css
             },
             {   // каждый новый лоадер описывается в виде объекта {},
                 test: /\.less$/, //регулярное выражение для .less файла
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: isDev,
-                        reloadAll: true
-                    }
-                }, 'css-loader', 'less-loader']
+                use: cssLoaders('less-loader')
             },
             {   // каждый новый лоадер описывается в виде объекта {},
-                test: /\.scss$/, //регулярное выражение для .sass файла
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: isDev,
-                        reloadAll: true
-                    }
-                }, 'css-loader', 'sass-loader']
+                test: /\.s[ca]ss$/, //регулярное выражение для .sass или  .scss файла
+                use: cssLoaders('sass-loader')
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,

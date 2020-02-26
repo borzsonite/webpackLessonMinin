@@ -1,13 +1,15 @@
-@border: 1px solid #ccc;
 
-.box {
+$border: 1px solid #ccc;
+
+.sass-box {
     padding: 1rem;
     border-radius: 5px;
     margin-top: 1rem;
-    border: @border;
+    border: order;
+
 
     h2 {
     text-align: center;
-    color: blueviolet;
+    color: red;
 }
 }

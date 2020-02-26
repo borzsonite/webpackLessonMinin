@@ -21,6 +21,9 @@ const optimization = () => {
     }
     return config
 }
+
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}` //фукция принимает параметр ext и в зависимости от значение isDev возвращает имя с хешем или без
+
 console.log('isDev: ', isDev);
 console.log(process.env.NODE_ENV)
 
@@ -32,7 +35,7 @@ module.exports = {
         analitics: './analitics.js'
     },
     output: {
-        filename: '[name].[hash].js',
+        filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
@@ -65,7 +68,7 @@ module.exports = {
             ]
         ),
         new MiniCssExtractPlugin({
-            filename: '[name].[hash].css', // имя выходного файла
+            filename: filename('css'), // имя выходного файла
         }),
     ],
     module: {
@@ -80,6 +83,16 @@ module.exports = {
                         reloadAll: true
                     }
                 }, 'css-loader'] // вместо 'style-loader' как  в строке выше указываем MiniCssExtractPlugin.loader чтобы писать стили в файл .css
+            },
+            {   // каждый новый лоадер описывается в виде объекта {},
+                test: /\.less$/, //регулярное выражение для .less файла
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: isDev,
+                        reloadAll: true
+                    }
+                }, 'css-loader', 'less-loader']
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,

@@ -91,3 +91,36 @@ const optimization = () => {
     }
     return config
 }
+
+2.00.00 подключение препроцессора less
+ - в блоке rules добавляем новое правило для обработки файлов с расширением .less (по сути копируем правил для css файлов и добавляем обработчик less)
+			{   
+                test: /\.less$/, //регулярное выражение для .less файла
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: isDev,
+                        reloadAll: true
+                    }
+                }, 'css-loader', 'less-loader'] // добавляем обработчик less
+            },
+ 
+ -устанавливаем лоадер:
+	npm i -D less-loader
+ - подключаем .less файл в index.js:
+	import './styles/less.less'
+ - подключаем библиотеку less:
+	npm i -D less
+	
+2.05.00 делаем  оптимизацию для добавления хэша в имя .css .js файлов в зависимости от режима сборки:
+ - const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}` //фукция принимает параметр ext и в зависимости от значение isDev возвращает имя с хешем или без
+ - в конструкторе плагина вызываем filename c сооответсвтующим расширением и при описании точки вывода:
+	        new MiniCssExtractPlugin({
+            filename: filename('css'), // имя выходного файла
+        }),
+		
+		    output: {
+        filename: filename('js'),
+        path: path.resolve(__dirname, 'dist')
+    },
+ 

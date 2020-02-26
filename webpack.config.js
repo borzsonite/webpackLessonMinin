@@ -4,6 +4,23 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const isDev = process.env.NODE_ENV === 'development' // определяет в коком режиме проводится сборка
+const isProd = !isDev
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
+const optimization = () => {
+    const config = { //данная настройка позволяет избежать повтороного включения кода одних и тех же библиотек используемых в различных файлах. Например до ее применения 
+        splitChunks: { // код jquery прописывался в выходных файлах analitics.js and main.js после применения настройки этот код находится в vendor.analitics.js
+            chunks: 'all'
+        }
+    }
+    if (isProd) {
+        config.minimizer = [
+            new OptimizeCssAssetsWebpackPlugin(),
+            new TerserWebpackPlugin()
+        ]
+    }
+    return config
+}
 console.log('isDev: ', isDev);
 console.log(process.env.NODE_ENV)
 
@@ -15,7 +32,7 @@ module.exports = {
         analitics: './analitics.js'
     },
     output: {
-        filename: '[name].[contenthash].js',
+        filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
@@ -24,18 +41,19 @@ module.exports = {
             "@": path.resolve(__dirname, 'src/assets')
         },
     },
-    optimization: { //данная настройка позволяет избежать повтороного включения кода одних и тех же библиотек используемых в различных файлах. Например до ее применения 
-        splitChunks: { // код jquery прописывался в выходных файлах analitics.js and main.js после применения настройки этот код находится в vendor.analitics.js
-            chunks: 'all'
-        }
-    },
+    optimization: optimization(),
     devServer: {
         port: 4200,
         hot: isDev
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './index.html'
+            template: './index.html',
+            minify: { // минификация .html файла
+                collapseWhitespace: isProd,
+                removeComments: isProd,
+            }
+
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin(
@@ -47,7 +65,7 @@ module.exports = {
             ]
         ),
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css', // имя выходного файла
+            filename: '[name].[hash].css', // имя выходного файла
         }),
     ],
     module: {

@@ -94,6 +94,16 @@ module.exports = {
                     }
                 }, 'css-loader', 'less-loader']
             },
+            {   // каждый новый лоадер описывается в виде объекта {},
+                test: /\.sass$/, //регулярное выражение для .sass файла
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: isDev,
+                        reloadAll: true
+                    }
+                }, 'css-loader', 'sass-loader']
+            },
             {
                 test: /\.(png|jpg|svg|gif)$/,
                 use: ['file-loader']

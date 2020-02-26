@@ -1,6 +1,7 @@
 import Post from './Post'; // расширение можно не указывать если в webpack.config.js в разделе resolve прописать extensions: ['.png', '.js', '.json'],
 import './styles/style.css'
 import './styles/less.less'
+import './styles/sass.sass'
 import json from './assets/json'
 import WebpackLogo from './assets/webpack-logo'
 import xml from './assets/data.xml'

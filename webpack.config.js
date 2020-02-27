@@ -42,7 +42,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'), // указывает путь в котором лежат исходные файлы для сборки
     mode: 'development',
     entry: {
-        main: './index.js',
+        main: ['@babel/polyfill', './index.js'],
         analitics: './analitics.js'
     },
     output: {
@@ -113,6 +113,19 @@ module.exports = {
             {
                 test: /\.csv$/,
                 use: ['csv-loader']
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                        ],
+                        plugins: ['@babel/plugin-proposal-class-properties']
+                    }
+                }
             },
         ]
     }

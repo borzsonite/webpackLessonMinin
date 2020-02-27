@@ -2,6 +2,7 @@ import Post from './Post'; // расширение можно не указыв�
 import './styles/style.css'
 import './styles/less.less'
 import './styles/sass.scss'
+import './babel'
 import json from './assets/json'
 import WebpackLogo from './assets/webpack-logo'
 import xml from './assets/data.xml'

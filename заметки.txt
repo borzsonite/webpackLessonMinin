@@ -124,3 +124,42 @@ const optimization = () => {
         path: path.resolve(__dirname, 'dist')
     },
  
+ 2.10.00 установка babel
+  - npm i -D babel-loader @babel/core
+  - добавляем новое правило:
+  module: {
+  rules: [
+    { test: /\.js$/, 
+    exclude: /node_modules/, 
+    loader: "babel-loader" }
+  ]
+}
+ - для дальнейшего использвания добавляем в поле loader пресеты (presets-env):
+ - npm i -D @babel/preset-env
+ - в правила дописываем ключ loader: 
+            loader: {
+            loader: 'babel-loader',
+            options: {
+                presets: [
+                    "@babel/preset-env",
+                 ]
+            }
+        }
+
+- добавляем в package.json строчку:
+  "browserslist": "> 0.25%, not dead"  // исользовать для бравзуеров которые не мертсвы и используются блоее .25%
+- устанавливаем полифилы:
+  npm install --save @babel/polyfill
+- добавляем в раздел main @бэйбл/полифил
+  main: ['@babel/pollyfill','./index.js'],
+
+2.22.30 добавление плагинов для бейбла для подключения эксперементальных возможностей
+ - @babel/plugin-proposal-class-properties 
+ - добавляем в раздел options для babel раздел plugins:
+        options: {
+        presets: [
+            "@babel/preset-env",
+        ],
+        plugins: ['@babel/plugin-proposal-class-properties']
+
+   

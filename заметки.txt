@@ -161,5 +161,29 @@ const optimization = () => {
             "@babel/preset-env",
         ],
         plugins: ['@babel/plugin-proposal-class-properties']
-
+		
+2.24.40 подключение type script
+ - копируем секцию отвечающую за обработку js скриптов
+                {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                        ],
+                        plugins: ['@babel/plugin-proposal-class-properties']
+                    }
+                }
+            },
+ 
+ - устанавливаем пресет для typescript
+   npm install --save-dev @babel/preset-typescript 
+ - дописываем в presets использование ts пресета
+    presets: [
+      '@babel/preset-env',
+      '@babel/preset-typescript'
+    ],
+ - не забываем добавить импорт ts файла из в index.js
    

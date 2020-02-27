@@ -22,6 +22,14 @@ const optimization = () => {
     return config
 }
 
+const babelOptions = () => {
+    return {
+        presets: [
+            "@babel/preset-env",
+        ],
+        plugins: ['@babel/plugin-proposal-class-properties']
+    }
+}
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}` //фукция принимает параметр ext и в зависимости от значение isDev возвращает имя с хешем или без
 const cssLoaders = extra => {
     const loaders = [{
@@ -119,9 +127,18 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: {
                     loader: 'babel-loader',
+                    options: babelOptions()
+                }
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                loader: {
+                    loader: 'babel-loader',
                     options: {
                         presets: [
-                            "@babel/preset-env",
+                            '@babel/preset-env',
+                            '@babel/preset-typescript'
                         ],
                         plugins: ['@babel/plugin-proposal-class-properties']
                     }

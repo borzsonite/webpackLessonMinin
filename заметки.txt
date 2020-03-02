@@ -228,3 +228,4 @@ const optimization = () => {
     devtool: isDev ? 'source-map' : '',  // вот эту, в зависимости от режима сборки подкючаем карты.
 
 2.36.25 подключаем ESLint
+- npm i -D eslint-loader

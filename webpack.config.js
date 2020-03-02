@@ -22,13 +22,15 @@ const optimization = () => {
     return config
 }
 
-const babelOptions = () => {
-    return {
+const babelOptions = preset => {
+    const opts = {
         presets: [
             "@babel/preset-env",
         ],
         plugins: ['@babel/plugin-proposal-class-properties']
     }
+    if (preset) opts.presets.push(preset)
+    return opts;
 }
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}` //фукция принимает параметр ext и в зависимости от значение isDev возвращает имя с хешем или без
 const cssLoaders = extra => {
@@ -42,6 +44,7 @@ const cssLoaders = extra => {
     if (extra) loaders.push(extra);
     return loaders
 }
+
 
 console.log('isDev: ', isDev);
 console.log(process.env.NODE_ENV)
@@ -68,6 +71,7 @@ module.exports = {
         port: 4200,
         hot: isDev
     },
+    devtool: isDev ? 'source-map' : '',
     plugins: [
         new HTMLWebpackPlugin({
             template: './index.html',
@@ -135,13 +139,15 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: {
                     loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env',
-                            '@babel/preset-typescript'
-                        ],
-                        plugins: ['@babel/plugin-proposal-class-properties']
-                    }
+                    options: babelOptions('@babel/preset-typescript')
+                }
+            },
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                loader: {
+                    loader: 'babel-loader',
+                    options: babelOptions('@babel/preset-react')
                 }
             },
         ]
